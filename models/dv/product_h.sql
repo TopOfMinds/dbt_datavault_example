@@ -18,7 +18,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.sales' AS rec_src
     FROM
-      dv.sales_line_stg_v
+       {{ ref('sales_line_stg') }}
     UNION ALL
     SELECT
       CAST(ean AS string) AS product_key
@@ -26,7 +26,7 @@ FROM (
       ,created AS load_dts
       ,'datalake.product' AS rec_src
     FROM
-      datalake.product
+      {{ source('datalake', 'product') }}
     UNION ALL
     SELECT
       CAST(ean AS string) AS product_key
@@ -34,7 +34,7 @@ FROM (
       ,created AS load_dts
       ,'datalake.product_sizes' AS rec_src
     FROM
-      dv.product_sizes_stg_v
+       {{ ref('product_sizes_stg') }}
   )
 )
 WHERE rn = 1

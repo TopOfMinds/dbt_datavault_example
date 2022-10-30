@@ -21,7 +21,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.customer_segmentations' AS rec_src
     FROM
-      datalake.customer_segmentations
+      {{ source('datalake', 'customer_segmentations') }}
   )
 )
 WHERE rn = 1

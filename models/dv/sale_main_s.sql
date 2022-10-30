@@ -15,7 +15,7 @@ FROM (
     ,tax AS tax
     ,'datalake.sales' AS rec_src
   FROM
-    datalake.sales
+    {{ source('datalake', 'sales') }}
 )
 GROUP BY
   sale_key

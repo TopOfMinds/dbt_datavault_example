@@ -19,7 +19,7 @@ FROM (
     ,weight AS weight
     ,'datalake.product_sizes' AS rec_src
   FROM
-    dv.product_sizes_stg_v
+     {{ ref('product_sizes_stg') }}
 )
 GROUP BY
   product_key

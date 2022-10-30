@@ -21,7 +21,7 @@ FROM (
     ,country AS country
     ,'datalake.customer_address' AS rec_src
   FROM
-    datalake.customer_address
+    {{ source('datalake', 'customer_address') }}
 )
 GROUP BY
   customer_key

@@ -8,4 +8,4 @@ SELECT
   ,lower(email_address) AS email_address
   ,home_phone
   ,rec_src
-FROM dv.customer_main_s
+FROM  {{ ref('customer_main_s') }}

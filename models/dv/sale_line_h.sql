@@ -18,7 +18,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.sales' AS rec_src
     FROM
-      dv.sales_line_stg_v
+       {{ ref('sales_line_stg') }}
   )
 )
 WHERE rn = 1

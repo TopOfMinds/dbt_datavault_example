@@ -15,7 +15,7 @@ FROM (
     ,description AS class_description
     ,'datalake.customer_classes' AS rec_src
   FROM
-    datalake.customer_classes
+    {{ source('datalake', 'customer_classes') }}
 )
 GROUP BY
   customer_class_key

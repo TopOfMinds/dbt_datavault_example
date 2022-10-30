@@ -19,7 +19,7 @@ FROM (
     ,cell_number AS home_phone
     ,'datalake.customer' AS rec_src
   FROM
-    datalake.customer
+    {{ source('datalake', 'customer') }}
 )
 GROUP BY
   customer_key

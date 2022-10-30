@@ -7,7 +7,7 @@ SELECT
   ,slms.load_dts
   ,slms.rec_src
 FROM
-  `dv.sale_line_main_s` slms
-  JOIN `dv.sale_line_l` sll ON sll.sale_line_key = slms.sale_line_key
-  JOIN `dv.sale_customer_l` scl ON scl.sale_key = sll.sale_key
+   {{ ref('sale_line_main_s') }} slms
+  JOIN  {{ ref('sale_line_l') }} sll ON sll.sale_line_key = slms.sale_line_key
+  JOIN  {{ ref('sale_customer_l') }} scl ON scl.sale_key = sll.sale_key
 

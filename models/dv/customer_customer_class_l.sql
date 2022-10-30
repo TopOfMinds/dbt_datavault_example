@@ -20,7 +20,7 @@ FROM (
       ,CAST(customer_class_id AS string) AS customer_class_key
       ,ingestion_time AS load_dts
       ,'datalake.customer_segmentations' AS rec_src
-    FROM datalake.customer_segmentations
+    FROM {{ source('datalake', 'customer_segmentations') }}
   )
 )
 WHERE rn = 1

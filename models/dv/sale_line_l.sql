@@ -23,7 +23,7 @@ FROM (
       ,CAST(product_id AS string) AS product_key
       ,ingestion_time AS load_dts
       ,'datalake.sales' AS rec_src
-    FROM dv.sales_line_stg_v
+    FROM  {{ ref('sales_line_stg') }}
   )
 )
 WHERE rn = 1

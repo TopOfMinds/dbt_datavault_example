@@ -10,5 +10,5 @@ SELECT
   ,ingestion_time
   ,dt
 FROM
-  `datalake.sales` AS s
+  {{ source('datalake', 'sales') }} AS s
   ,UNNEST(s.sales_lines) AS sl WITH OFFSET

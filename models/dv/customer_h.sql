@@ -18,7 +18,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.sales' AS rec_src
     FROM
-      datalake.sales
+      {{ source('datalake', 'sales') }}
     UNION ALL
     SELECT
       CAST(customer_id AS string) AS customer_key
@@ -26,7 +26,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.customer' AS rec_src
     FROM
-      datalake.customer
+      {{ source('datalake', 'customer') }}
     UNION ALL
     SELECT
       CAST(customer_id AS string) AS customer_key
@@ -34,7 +34,7 @@ FROM (
       ,ingestion_time AS load_dts
       ,'datalake.custommer_address' AS rec_src
     FROM
-      datalake.customer_address
+      {{ source('datalake', 'customer_address') }}
   )
 )
 WHERE rn = 1

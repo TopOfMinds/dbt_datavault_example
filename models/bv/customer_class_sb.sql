@@ -11,8 +11,8 @@ SELECT
   -- ,ccs.class_description
   ,cccls.rec_src
 FROM
-  `dv.customer_h` ch
-  JOIN `dv.customer_customer_class_l` cccl ON cccl.customer_key = ch.customer_key
-  JOIN `dv.customer_customer_class_l_sb`cccls ON cccls.customer_customer_class_l_key = cccl.customer_customer_class_l_key
-  JOIN `dv.customer_class_s` ccs ON ccs.customer_class_key = cccl.customer_class_key
+   {{ ref('customer_h') }} ch
+  JOIN  {{ ref('customer_customer_class_l') }} cccl ON cccl.customer_key = ch.customer_key
+  JOIN  {{ ref('customer_customer_class_l_sb') }} cccls ON cccls.customer_customer_class_l_key = cccl.customer_customer_class_l_key
+  JOIN  {{ ref('customer_class_s') }} ccs ON ccs.customer_class_key = cccl.customer_class_key
 

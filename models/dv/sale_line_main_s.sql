@@ -15,7 +15,7 @@ FROM (
     ,quantity AS item_quantity
     ,'datalake.sales' AS rec_src
   FROM
-    dv.sales_line_stg_v
+     {{ ref('sales_line_stg') }}
 )
 GROUP BY
   sale_line_key

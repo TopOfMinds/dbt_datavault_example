@@ -15,7 +15,7 @@ FROM (
     ,color AS product_color
     ,'datalake.product' AS rec_src
   FROM
-    datalake.product
+    {{ source('datalake', 'product') }}
 )
 GROUP BY
   product_key

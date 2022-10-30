@@ -3,7 +3,7 @@ WITH id_ean AS (
     product_id
     ,ean
   FROM
-    `datalake.product`
+    {{ source('datalake', 'product') }}
 )
 SELECT
   ps.product_id
@@ -15,5 +15,5 @@ SELECT
   ,created
   ,dt
 FROM
-  `datalake.product_sizes` ps
+  {{ source('datalake', 'product_sizes') }} ps
   LEFT JOIN id_ean ie ON ie.product_id = ps.product_id

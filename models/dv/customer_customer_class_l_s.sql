@@ -11,7 +11,7 @@ FROM (
     ,date AS effective_ts
     ,'datalake.customer_segmentations' AS rec_src
   FROM
-    datalake.customer_segmentations
+    {{ source('datalake', 'customer_segmentations') }}
 )
 GROUP BY
   customer_customer_class_l_key
