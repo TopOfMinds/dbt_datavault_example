@@ -5,9 +5,81 @@ sources:
     description: Raw data from various source systems
     tables:
       - name: customer
+        columns:
+          - name: cell_number
+          - name: preferred_payment_type	
+          - name: email
+          - name: occupation
+          - name: last_name
+          - name: first_name
+          - name: ingestion_time
+            description: bq-datetime
+          - name: date
+            description: bq-datetime
+          - name: customer_id
+          - name: dt
       - name: customer_address
+        columns:
+          - name: city
+          - name: address	
+          - name: country
+          - name: county
+          - name: postal_code
+          - name: ingestion_time
+            description: bq-datetime
+          - name: date
+            description: bq-datetime
+          - name: customer_id
+          - name: dt
       - name: customer_classes
+        columns:
+          - name: created
+            description: bq-datetime
+          - name: description	
+          - name: name
+          - name: id
+          - name: dt
       - name: customer_segmentations
+        columns:
+          - name: ingestion_time
+            description: bq-datetime
+          - name: date
+            description: bq-datetime
+          - name: customer_class_id	
+          - name: customer_id
+          - name: segmentation_id
+          - name: dt
       - name: product
+        columns:
+          - name: price
+          - name: product_name
+          - name: product_type	
+          - name: created
+            description: bq-datetime
+          - name: color
+          - name: ean
+          - name: product_id
+          - name: dt
       - name: product_sizes
+        columns:
+          - name: height
+          - name: created
+            description: bq-datetime
+          - name: length	
+          - name: width
+          - name: weight
+          - name: product_id
+          - name: dt
       - name: sales
+        columns:
+          - name: sales_lines
+          - name: total
+          - name: payment_type
+          - name: customer_id
+          - name: tax
+          - name: ingestion_time
+          description: bq-datetime
+          - name: date
+          description: bq-datetime
+          - name: transaction_id
+          - name: dt
