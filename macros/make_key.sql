@@ -1,0 +1,1 @@
+{% macro make_key(ids) %}CAST({{ ids | join("|| '|' ||") }} AS string){% endmacro %}

@@ -1,6 +1,6 @@
 {% call deduplicate(['product_key', 'effective_ts', 'length', 'width', 'height', 'weight']) %}
 SELECT
-  CAST(ean AS string) AS product_key
+  {{ make_key(['ean']) }} AS product_key
   ,created AS load_dts
   ,created AS effective_ts
   ,length AS length

@@ -1,6 +1,6 @@
 {% call deduplicate(['sale_key', 'effective_ts', 'amount', 'tax']) %}
 SELECT
-  CAST(transaction_id AS string) AS sale_key
+  {{ make_key(['transaction_id']) }} AS sale_key
   ,ingestion_time AS load_dts
   ,date AS effective_ts
   ,CAST(total AS numeric) AS amount

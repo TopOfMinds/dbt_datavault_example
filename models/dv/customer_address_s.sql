@@ -1,6 +1,6 @@
 {% call deduplicate(['customer_key', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country']) %}
 SELECT
-  CAST(customer_id AS string) AS customer_key
+  {{ make_key(['customer_id']) }} AS customer_key
   ,ingestion_time AS load_dts
   ,date AS effective_ts
   ,address AS address
