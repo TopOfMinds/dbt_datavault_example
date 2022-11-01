@@ -1,3 +1,5 @@
+{{ config(materialized='incremental') -}}
+
 {% set metadata_yaml -%}
 target: 
   key: product_key
@@ -5,6 +7,7 @@ target:
 sources:
   - type: ref
     table: 'sales_line_stg'
+    filter: 1=1
     business_keys: ['product_id']
     load_dts: 'ingestion_time'
     rec_src: 'datalake.sales'
