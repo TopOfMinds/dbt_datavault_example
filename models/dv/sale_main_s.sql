@@ -1,11 +1,15 @@
-{% call deduplicate(['sale_key', 'effective_ts', 'amount', 'tax']) %}
-SELECT
-  {{ make_key(['transaction_id']) }} AS sale_key
-  ,ingestion_time AS load_dts
-  ,date AS effective_ts
-  ,CAST(total AS numeric) AS amount
-  ,CAST(tax AS numeric) AS tax
-  ,'datalake.sales' AS rec_src
-FROM
-  {{ source('datalake', 'sales') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: sale_key
+  attributes: ['effective_ts', 'amount', 'tax']
+source:
+  type: source
+  name: datalake
+  table: sales
+  key: transaction_id
+  attributes: ['date', 'CAST(total AS numeric)', 'CAST(tax AS numeric)']
+  load_dts: ingestion_time
+  rec_src: datalake.sales
+{%- endset %}
+
+{{- satellite(metadata_yaml) }}
