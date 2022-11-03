@@ -4,7 +4,7 @@ SELECT
 FROM (
   SELECT
     *
-    ,row_number() over(PARTITION BY {{ dedup_fields | join(', ') }} ORDER BY {{ order_field }} asc) rn
+    ,ROW_NUMBER() OVER(PARTITION BY {{ dedup_fields | join(', ') }} ORDER BY {{ order_field }} ASC) rn
   FROM (
     {{- caller() | indent(4) }}
   ) AS q
