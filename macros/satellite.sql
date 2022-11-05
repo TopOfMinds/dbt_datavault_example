@@ -1,14 +1,10 @@
-{% macro satellite(metadata_yaml) -%}
-{%- set metadata = fromyaml(metadata_yaml) -%}
+{% macro satellite(metadata) -%}
 {%- set tgt = metadata.target -%}
 {%- set src = metadata.source -%}
-{%- if src.type == 'source' -%}
-  {%- set src_table = source(src.name, src.table) -%}
-{%- elif src.type == 'ref' -%}
-  {%- set src_table = ref(src.table) -%}
-{%- endif -%}
+{% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}
+{% set all_fields = [tgt.key, 'load_dts'] + tgt.attributes + ['rec_src'] -%}
 
-{%- call deduplicate([tgt.key] + tgt.attributes) %}
+{%- call deduplicate([tgt.key] + tgt.attributes, all_fields) %}
 SELECT
   {{ make_key([src.key]) }} AS {{ tgt.key }}
   ,{{ src.load_dts }} AS load_dts

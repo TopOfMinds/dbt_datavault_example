@@ -1,25 +1,24 @@
-{% call deduplicate(['product_key']) %}
-SELECT
-  {{ make_key(['product_id']) }} AS product_key
-  ,product_id AS ean
-  ,ingestion_time AS load_dts
-  ,'datalake.sales' AS rec_src
-FROM
-  {{ ref('sales_line_stg') }}
-UNION ALL
-SELECT
-  {{ make_key(['ean']) }} AS product_key
-  ,ean AS ean
-  ,created AS load_dts
-  ,'datalake.product' AS rec_src
-FROM
-  {{ source('datalake', 'product') }}
-UNION ALL
-SELECT
-  {{ make_key(['ean']) }} AS product_key
-  ,ean AS ean
-  ,created AS load_dts
-  ,'datalake.product_sizes' AS rec_src
-FROM
-  {{ ref('product_sizes_stg') }}
-{% endcall %}
+{{ config(materialized='incremental') -}}
+
+{% set metadata_yaml -%}
+target: 
+  key: product_key
+  business_keys: ['ean']
+sources:
+  - table: 'sales_line_stg'
+    filter: 1=1
+    business_keys: ['product_id']
+    load_dts: 'ingestion_time'
+    rec_src: 'datalake.sales'
+  - name: datalake
+    table: product
+    business_keys: ['ean']
+    load_dts: created
+    rec_src: 'datalake.product'
+  - table: product_sizes_stg
+    business_keys: ['ean']
+    load_dts: created
+    rec_src: 'datalake.product_sizes'
+{%- endset %}
+
+{{- hub(fromyaml(metadata_yaml)) }}

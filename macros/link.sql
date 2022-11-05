@@ -1,15 +1,12 @@
-{% macro link(metadata_yaml) -%}
-{% set metadata = fromyaml(metadata_yaml) -%}
+{% macro link(metadata) -%}
 {% set tgt = metadata.target -%}
+{% set sources = metadata.sources if metadata.sources else [metadata.source] -%}
+{% set all_fields = [tgt.key] + tgt.hub_keys + ['load_dts', 'rec_src'] -%}
 
-{% call deduplicate(['sale_line_l_key']) %}
-{% for src in metadata.sources %}
+{% call deduplicate(['sale_line_l_key'], all_fields) -%}
+{% for src in sources %}
 {% if not loop.first %}UNION ALL{% endif -%}
-{% if src.type == 'source' %}
-{% set src_table = source(src.name, src.table) -%}
-{% elif src.type == 'ref' %}
-{% set src_table = ref(src.table) -%}
-{% endif -%}
+{% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}
 {% set src_flat_bks = src.hubs_business_keys | sum(start=[]) -%}
 SELECT
   {{ make_key(src_flat_bks) }} AS sale_line_l_key

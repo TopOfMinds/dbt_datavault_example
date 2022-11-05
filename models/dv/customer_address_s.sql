@@ -1,4 +1,7 @@
-{% call deduplicate(['customer_key', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country']) %}
+{% call deduplicate(
+  ['customer_key', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country'],
+  ['customer_key', 'load_dts', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country', 'rec_src']
+) %}
 SELECT
   {{ make_key(['customer_id']) }} AS customer_key
   ,ingestion_time AS load_dts

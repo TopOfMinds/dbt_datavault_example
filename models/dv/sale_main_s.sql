@@ -3,7 +3,6 @@ target:
   key: sale_key
   attributes: ['effective_ts', 'amount', 'tax']
 source:
-  type: source
   name: datalake
   table: sales
   key: transaction_id
@@ -12,4 +11,4 @@ source:
   rec_src: datalake.sales
 {%- endset %}
 
-{{- satellite(metadata_yaml) }}
+{{- satellite(fromyaml(metadata_yaml)) }}

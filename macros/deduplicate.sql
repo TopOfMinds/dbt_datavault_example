@@ -1,6 +1,12 @@
-{% macro deduplicate(dedup_fields, order_field='load_dts') -%}
+{% macro deduplicate(dedup_fields, return_fields=None, order_field='load_dts') -%}
 SELECT
+{% if return_fields -%}
+{% for return_field in return_fields -%}
+  {% if not loop.first %}  ,{% else %}  {% endif %}{{ return_field }}
+{% endfor -%}
+{% else -%}
   * EXCEPT(rn)
+{% endif -%}
 FROM (
   SELECT
     *

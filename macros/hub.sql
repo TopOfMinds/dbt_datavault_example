@@ -1,15 +1,12 @@
-{% macro hub(metadata_yaml) -%}
-{% set metadata = fromyaml(metadata_yaml) -%}
+{% macro hub(metadata) -%}
 {% set tgt = metadata.target -%}
+{% set sources = metadata.sources if metadata.sources else [metadata.source] -%}
+{% set all_fields = [tgt.key] + tgt.business_keys + ['load_dts', 'rec_src'] -%}
 
-{%- call deduplicate([tgt.key]) -%}
-{% for src in metadata.sources %}
-{% if not loop.first %}UNION ALL{% endif -%}
-{% if src.type == 'source' %}
-{% set src_table = source(src.name, src.table) -%}
-{% elif src.type == 'ref' %}
-{% set src_table = ref(src.table) -%}
-{% endif -%}
+{%- call deduplicate([tgt.key], all_fields) -%}
+{% for src in sources %}
+{% if not loop.first %}UNION ALL{% endif %}
+{% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}
 SELECT
   {{ make_key(src.business_keys) }} AS {{ tgt.key }}
   {% for src_business_key, tgt_business_key in zip(src.business_keys, tgt.business_keys) -%}
