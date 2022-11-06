@@ -1,11 +1,13 @@
-{% call deduplicate(['sale_line_key', 'effective_ts', 'item_cost', 'item_quantity']) %}
-SELECT
-  {{ make_key(['sales_line_id']) }} AS sale_line_key
-  ,ingestion_time AS load_dts
-  ,date AS effective_ts
-  ,price AS item_cost
-  ,quantity AS item_quantity
-  ,'datalake.sales' AS rec_src
-FROM
-  {{ ref('sales_line_stg') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: sale_line_key
+  attributes: ['effective_ts', 'item_cost', 'item_quantity']
+source:
+  table: sales_line_stg
+  key: sales_line_id
+  attributes: ['date', 'price', 'quantity']
+  load_dts: ingestion_time
+  rec_src: datalake.sales
+{%- endset %}
+
+{{- satellite(fromyaml(metadata_yaml)) }}

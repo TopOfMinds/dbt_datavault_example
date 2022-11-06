@@ -1,17 +1,14 @@
-{% call deduplicate(
-  ['customer_key', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country'],
-  ['customer_key', 'load_dts', 'effective_ts', 'address', 'city', 'county', 'postal_code', 'country', 'rec_src']
-) %}
-SELECT
-  {{ make_key(['customer_id']) }} AS customer_key
-  ,ingestion_time AS load_dts
-  ,date AS effective_ts
-  ,address AS address
-  ,city AS city
-  ,county AS county
-  ,postal_code AS postal_code
-  ,country AS country
-  ,'datalake.customer_address' AS rec_src
-FROM
-  {{ source('datalake', 'customer_address') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: customer_key
+  attributes: ['effective_ts', 'address', 'city', 'county', 'postal_code', 'country']
+source:
+  name: datalake
+  table: customer_address
+  key: customer_id
+  attributes: ['date', 'address', 'city', 'county', 'postal_code', 'country']
+  load_dts: ingestion_time
+  rec_src: datalake.customer_address
+{%- endset %}
+
+{{- satellite(fromyaml(metadata_yaml)) }}

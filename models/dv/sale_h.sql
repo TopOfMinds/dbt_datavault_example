@@ -1,9 +1,13 @@
-{% call deduplicate(['sale_key']) %}
-SELECT
-  {{ make_key(['transaction_id']) }} AS sale_key
-  ,transaction_id AS sale_id
-  ,ingestion_time AS load_dts
-  ,'datalake.sales' AS rec_src
-FROM
-  {{ source('datalake', 'sales') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: sale_key
+  business_keys: ['sale_id']
+source:
+  name: datalake
+  table: sales
+  business_keys: ['transaction_id']
+  load_dts: ingestion_time
+  rec_src: datalake.sales
+{%- endset %}
+
+{{- hub(fromyaml(metadata_yaml)) }}

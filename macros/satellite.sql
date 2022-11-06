@@ -3,10 +3,11 @@
 {%- set src = metadata.source -%}
 {% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}
 {% set all_fields = [tgt.key, 'load_dts'] + tgt.attributes + ['rec_src'] -%}
+{% set src_keys = src.keys_ if src.keys_ else [src.key] -%}
 
 {%- call deduplicate([tgt.key] + tgt.attributes, all_fields) %}
 SELECT
-  {{ make_key([src.key]) }} AS {{ tgt.key }}
+  {{ make_key(src_keys) }} AS {{ tgt.key }}
   ,{{ src.load_dts }} AS load_dts
   {% for src_attr, tgt_attr in zip(src.attributes, tgt.attributes) -%}
   ,{{ src_attr }} AS {{ tgt_attr }}

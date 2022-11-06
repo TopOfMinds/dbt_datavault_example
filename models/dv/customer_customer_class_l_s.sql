@@ -1,9 +1,15 @@
-{% call deduplicate(['customer_customer_class_l_key', 'effective_ts']) %}
-SELECT
-  {{ make_key(['customer_id', 'customer_class_id']) }} AS customer_customer_class_l_key
-  ,ingestion_time AS load_dts
-  ,date AS effective_ts
-  ,'datalake.customer_segmentations' AS rec_src
-FROM
-  {{ source('datalake', 'customer_segmentations') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: customer_customer_class_l_key
+  attributes: ['effective_ts']
+source:
+  name: datalake
+  table: customer_segmentations
+  key: customer_id
+  keys_: ['customer_id', 'customer_class_id']
+  attributes: ['date']
+  load_dts: ingestion_time
+  rec_src: datalake.customer_segmentations
+{%- endset %}
+
+{{- satellite(fromyaml(metadata_yaml)) }}

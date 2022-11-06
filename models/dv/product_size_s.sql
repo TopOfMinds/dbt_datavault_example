@@ -1,13 +1,13 @@
-{% call deduplicate(['product_key', 'effective_ts', 'length', 'width', 'height', 'weight']) %}
-SELECT
-  {{ make_key(['ean']) }} AS product_key
-  ,created AS load_dts
-  ,created AS effective_ts
-  ,length AS length
-  ,width AS width
-  ,height AS height
-  ,weight AS weight
-  ,'datalake.product_sizes' AS rec_src
-FROM
-  {{ ref('product_sizes_stg') }}
-{% endcall %}
+{% set metadata_yaml -%}
+target: 
+  key: product_key
+  attributes: ['effective_ts', 'length', 'width', 'height', 'weight']
+source:
+  table: product_sizes_stg
+  key: ean
+  attributes: ['created', 'length', 'width', 'height', 'weight']
+  load_dts: created
+  rec_src: datalake.product_sizes
+{%- endset %}
+
+{{- satellite(fromyaml(metadata_yaml)) }}

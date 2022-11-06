@@ -3,13 +3,13 @@
 {% set sources = metadata.sources if metadata.sources else [metadata.source] -%}
 {% set all_fields = [tgt.key] + tgt.hub_keys + ['load_dts', 'rec_src'] -%}
 
-{% call deduplicate(['sale_line_l_key'], all_fields) -%}
+{% call deduplicate([tgt.key], all_fields) -%}
 {% for src in sources %}
 {% if not loop.first %}UNION ALL{% endif -%}
 {% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}
 {% set src_flat_bks = src.hubs_business_keys | sum(start=[]) -%}
 SELECT
-  {{ make_key(src_flat_bks) }} AS sale_line_l_key
+  {{ make_key(src_flat_bks) }} AS {{ tgt.key }}
   {% for hub_business_keys, tgt_hub_key in zip(src.hubs_business_keys, tgt.hub_keys) -%}
   ,{{ make_key(hub_business_keys) }} AS {{ tgt_hub_key }}
   {% endfor -%}

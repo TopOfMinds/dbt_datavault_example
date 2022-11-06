@@ -1,5 +1,4 @@
 {{ config(materialized='incremental') -}}
-
 {% set metadata_yaml -%}
 target: 
   key: product_key
