@@ -13,13 +13,13 @@ FROM (
     ,ROW_NUMBER() OVER(PARTITION BY {{ dedup_fields | join(', ') }} ORDER BY {{ order_field }} ASC) rn
   FROM (
     {{- caller() | indent(4) }}
-  ) AS q
+  ) q
   {%- if is_incremental() %}
   WHERE NOT EXISTS (
     SELECT 
       1
     FROM
-      {{ this }} AS t
+      {{ this }} t
     WHERE 
       {%- for dedup_field in dedup_fields %}
       COALESCE(CAST(t.{{ dedup_field }} AS STRING), '#') = COALESCE(CAST(q.{{ dedup_field }} AS STRING), '#'){% if not loop.last %} AND{% endif %}
