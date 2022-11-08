@@ -1,4 +1,5 @@
-{% macro satellite(metadata) -%}
+{% macro satellite(metadata_yaml) -%}
+{% set metadata = fromyaml(metadata_yaml) -%}
 {%- set tgt = metadata.target -%}
 {%- set src = metadata.source -%}
 {% set src_table = source(src.name, src.table) if src.name else ref(src.table) -%}

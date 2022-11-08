@@ -10,4 +10,4 @@ source:
   rec_src: datalake.customer_segmentations
 {%- endset %}
 
-{{- link(fromyaml(metadata_yaml)) }}
+{{- link(metadata_yaml) }}

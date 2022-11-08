@@ -1,4 +1,5 @@
-{% macro hub(metadata) -%}
+{% macro hub(metadata_yaml) -%}
+{% set metadata = fromyaml(metadata_yaml) -%}
 {% set tgt = metadata.target -%}
 {% set sources = metadata.sources if metadata.sources else [metadata.source] -%}
 {% set all_fields = [tgt.key] + tgt.business_keys + ['load_dts', 'rec_src'] -%}

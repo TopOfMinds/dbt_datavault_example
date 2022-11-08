@@ -11,4 +11,4 @@ source:
   rec_src: datalake.customer_classes
 {%- endset %}
 
-{{- satellite(fromyaml(metadata_yaml)) }}
+{{- satellite(metadata_yaml) }}

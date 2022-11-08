@@ -11,4 +11,4 @@ source:
   rec_src: datalake.customer_address
 {%- endset %}
 
-{{- satellite(fromyaml(metadata_yaml)) }}
+{{- satellite(metadata_yaml) }}

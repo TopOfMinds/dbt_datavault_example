@@ -11,4 +11,4 @@ source:
   rec_src: datalake.product
 {%- endset %}
 
-{{- satellite(fromyaml(metadata_yaml)) }}
+{{- satellite(metadata_yaml) }}

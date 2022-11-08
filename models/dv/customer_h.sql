@@ -21,4 +21,4 @@ sources:
     rec_src: datalake.custommer_address
 {%- endset %}
 
-{{- hub(fromyaml(metadata_yaml)) }}
+{{- hub(metadata_yaml) }}

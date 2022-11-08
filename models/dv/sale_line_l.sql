@@ -9,4 +9,4 @@ source:
   rec_src: datalake.sales
 {%- endset %}
 
-{{- link(fromyaml(metadata_yaml)) }}
+{{- link(metadata_yaml) }}
