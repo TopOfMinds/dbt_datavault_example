@@ -10,4 +10,4 @@ source:
   rec_src: datalake.customer_segmentations
 {%- endset %}
 
-{{- link(metadata_yaml) }}
+{{- dbt_datavault.link(metadata_yaml) }}

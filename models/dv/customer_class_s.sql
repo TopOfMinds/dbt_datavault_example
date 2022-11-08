@@ -11,4 +11,4 @@ source:
   rec_src: datalake.customer_classes
 {%- endset %}
 
-{{- satellite(metadata_yaml) }}
+{{- dbt_datavault.satellite(metadata_yaml) }}

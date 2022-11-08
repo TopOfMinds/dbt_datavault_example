@@ -11,4 +11,4 @@ source:
   rec_src: 'datalake.customer_segmentations'
 {%- endset %}
 
-{{- hub(metadata_yaml) }}
+{{- dbt_datavault.hub(metadata_yaml) }}

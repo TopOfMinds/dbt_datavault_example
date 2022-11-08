@@ -20,4 +20,4 @@ sources:
     effective_ts: 'effective_ts'
 {%- endset %}
 
-{{- pit(metadata_yaml) }}
+{{- dbt_datavault.pit(metadata_yaml) }}

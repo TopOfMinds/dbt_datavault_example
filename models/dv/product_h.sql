@@ -20,4 +20,4 @@ sources:
     rec_src: 'datalake.product_sizes'
 {%- endset %}
 
-{{- hub(metadata_yaml) }}
+{{- dbt_datavault.hub(metadata_yaml) }}

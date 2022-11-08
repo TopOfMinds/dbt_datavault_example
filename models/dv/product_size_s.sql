@@ -10,4 +10,4 @@ source:
   rec_src: datalake.product_sizes
 {%- endset %}
 
-{{- satellite(metadata_yaml) }}
+{{- dbt_datavault.satellite(metadata_yaml) }}

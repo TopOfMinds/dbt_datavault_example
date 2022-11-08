@@ -12,4 +12,4 @@ source:
   rec_src: datalake.customer
 {%- endset %}
 
-{{- satellite(metadata_yaml) }}
+{{- dbt_datavault.satellite(metadata_yaml) }}

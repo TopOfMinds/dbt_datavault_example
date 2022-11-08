@@ -11,4 +11,4 @@ source:
   rec_src: datalake.sales
 {%- endset %}
 
-{{- link(metadata_yaml) }}
+{{- dbt_datavault.link(metadata_yaml) }}
